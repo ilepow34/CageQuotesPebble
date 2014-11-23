@@ -75,6 +75,7 @@ static void click_config_provider(void *context) {
 }
 
 static void main_window_load(Window *window) {
+  srand((unsigned) time(NULL));
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_frame(window_layer);
 
