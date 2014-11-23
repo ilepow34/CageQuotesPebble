@@ -1,0 +1,25 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "isaac.lepow34@gmail.com",
+    "longName": "Nic Cage Quotes",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/nicolas-cage-will-be-in-the-expendables-3.png",
+                "name": "IMAGE_NIC_CAGE",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "Nic Cage Quotes",
+    "uuid": "60164ee6-7b61-473a-b661-c29065b0cd3c",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
