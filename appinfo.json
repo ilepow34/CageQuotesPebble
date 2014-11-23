@@ -9,6 +9,12 @@
     "resources": {
         "media": [
             {
+                "file": "images/niccagethumb.png",
+                "menuIcon": true,
+                "name": "IMAGE_CAGE_THUMB",
+                "type": "png"
+            },
+            {
                 "file": "images/nicolas-cage-will-be-in-the-expendables-3.png",
                 "name": "IMAGE_NIC_CAGE",
                 "type": "png"

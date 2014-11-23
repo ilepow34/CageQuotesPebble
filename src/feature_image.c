@@ -33,6 +33,7 @@ char *quotes[10] = {quote0, quote1, quote2, quote3, quote4, quote5, quote6, quot
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   int rng = rand() % 10;
+  vibes_short_pulse();
   Layer *window_layer = window_get_root_layer(window);
   GRect window_bounds = layer_get_bounds(window_layer);
   s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
@@ -44,6 +45,7 @@ static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   int rng = rand() % 10;
+  vibes_short_pulse();
   Layer *window_layer = window_get_root_layer(window);
   GRect window_bounds = layer_get_bounds(window_layer);
   s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
@@ -55,6 +57,7 @@ static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   int rng = rand() % 10;
+  vibes_short_pulse();
   Layer *window_layer = window_get_root_layer(window);
   GRect window_bounds = layer_get_bounds(window_layer);
   s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
