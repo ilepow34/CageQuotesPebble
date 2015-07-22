@@ -10,7 +10,9 @@
 #include <stdlib.h>
 #include <time.h>
 
-static Window *window;
+static Window *s_main_window;
+static Window *s_text_window;
+static Window *s_image_window;
 
 static BitmapLayer *image_layer;
 
@@ -34,31 +36,21 @@ char *quotes[10] = {quote0, quote1, quote2, quote3, quote4, quote5, quote6, quot
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
   int rng = rand() % 10;
   vibes_short_pulse();
-  Layer *window_layer = window_get_root_layer(window);
+  Layer *window_layer = window_get_root_layer(s_text_window);
   GRect window_bounds = layer_get_bounds(window_layer);
   s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
   text_layer_set_font(s_output_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
   text_layer_set_text(s_output_layer, quotes[rng]);
   text_layer_set_overflow_mode(s_output_layer, GTextOverflowModeWordWrap);
   layer_add_child(window_layer, text_layer_get_layer(s_output_layer));
-}
-
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  int rng = rand() % 10;
-  vibes_short_pulse();
-  Layer *window_layer = window_get_root_layer(window);
-  GRect window_bounds = layer_get_bounds(window_layer);
-  s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
-  text_layer_set_font(s_output_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
-  text_layer_set_text(s_output_layer, quotes[rng]);
-  text_layer_set_overflow_mode(s_output_layer, GTextOverflowModeWordWrap);
-  layer_add_child(window_layer, text_layer_get_layer(s_output_layer));
+  window_stack_remove(s_text_window, true);
+  window_stack_push(s_text_window, true);
 }
 
 static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
   int rng = rand() % 10;
   vibes_short_pulse();
-  Layer *window_layer = window_get_root_layer(window);
+  Layer *window_layer = window_get_root_layer(s_main_window);
   GRect window_bounds = layer_get_bounds(window_layer);
   s_output_layer = text_layer_create(GRect(0, 0, window_bounds.size.w, window_bounds.size.h));
   text_layer_set_font(s_output_layer, fonts_get_system_font(FONT_KEY_GOTHIC_24));
@@ -70,7 +62,6 @@ static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
 static void click_config_provider(void *context) {
   // Register the ClickHandlers
   window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
   window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
@@ -90,6 +81,11 @@ static void main_window_load(Window *window) {
 
 }
 
+static void text_window_load(Window *window) {
+  
+  
+}
+
 static void main_window_unload(Window *window) {
 
   gbitmap_destroy(image);
@@ -99,17 +95,34 @@ static void main_window_unload(Window *window) {
 }
 
 static void init() {
-  window = window_create();
-  window_set_window_handlers(window, (WindowHandlers) {
+  s_main_window = window_create();
+  window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,
     .unload = main_window_unload
   });
-  window_set_click_config_provider(window, click_config_provider);
-  window_stack_push(window, true);
+  
+  //s_image_window = window_create();
+  //window_set_window_handlers(s_image_window, (WindowHandlers) {
+  //  .load = image_window_load,
+  //  .unload = image_window_unload
+  //});
+  
+  s_text_window = window_create();
+  window_set_window_handlers(s_text_window, (WindowHandlers) {
+    .load = text_window_load,
+    .unload = text_window_unload
+  });
+  
+  window_set_click_config_provider(s_main_window, click_config_provider);
+  window_set_click_config_provider(s_image_window, click_config_provider);
+  window_set_click_config_provider(s_text_window, click_config_provider);
+  
+  window_stack_push(s_main_window, true);
 }
 
 static void deinit() {
-  window_destroy(window);
+  window_destroy(s_main_window);
+  window_destroy(s_image_window);
 }
 
 int main(void) {

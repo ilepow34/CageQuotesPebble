@@ -21,6 +21,7 @@
             }
         ]
     },
+    "sdkVersion": "2",
     "shortName": "Cage Quotes",
     "uuid": "60164ee6-7b61-473a-b661-c29065b0cd3c",
     "versionCode": 1,
